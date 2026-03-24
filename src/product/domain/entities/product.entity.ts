@@ -46,7 +46,8 @@ export class Product extends AggregateRoot {
     name: string,
     description: string,
     sku: string,
-    price: Money,
+    price: number,
+    currency: string,
     stock: number,
   ) {
     Product.validateName(name);
@@ -59,7 +60,7 @@ export class Product extends AggregateRoot {
       name,
       description,
       sku: Sku.create(sku),
-      price,
+      price: Money.create(price, currency),
       stock,
       isActive: true,
       lowStockThreshold: 5,
