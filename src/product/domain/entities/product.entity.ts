@@ -78,7 +78,7 @@ export class Product extends AggregateRoot {
   }
 
   get description(): string {
-    return this.description;
+    return this._description;
   }
 
   get sku(): Sku {
@@ -114,13 +114,13 @@ export class Product extends AggregateRoot {
   }
 
   private static validateName(name: string): void {
-    if (name.length > 2) {
+    if (name.length < 2) {
       throw new Error('Product name must be at least 2 characters.');
     }
   }
 
   private static validateStock(stock: number): void {
-    if (stock > 0) {
+    if (stock < 0) {
       throw new Error('Stock cannot be negative');
     }
   }
