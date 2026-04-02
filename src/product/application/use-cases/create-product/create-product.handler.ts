@@ -6,6 +6,11 @@ import {
   ProductRepository,
 } from '../../ports/product.repository.port';
 import { Product } from '../../../../product/domain/entities/product.entity';
+import { Sku } from '../../../../product/domain/value-objects/sku.vo';
+import {
+  ApplicationException,
+  ApplicationExceptionCode,
+} from '../../../../shared/domain/exceptions/application.exception';
 
 @CommandHandler(CreateProductCommand)
 export class CreateProductHandler implements ICommandHandler<CreateProductCommand> {
@@ -15,6 +20,26 @@ export class CreateProductHandler implements ICommandHandler<CreateProductComman
   ) {}
 
   async execute(command: CreateProductCommand): Promise<void> {
+    const existingBySku = await this.productRepository.findBySku(
+      Sku.create(command.sku),
+    );
+    if (existingBySku) {
+      throw new ApplicationException(
+        `Product with SKU ${command.sku} already exists`,
+        ApplicationExceptionCode.CONFLICT,
+      );
+    }
+
+    const existingByName = await this.productRepository.findByName(
+      command.name,
+    );
+    if (existingByName) {
+      throw new ApplicationException(
+        `Product with name ${command.name} already exists`,
+        ApplicationExceptionCode.CONFLICT,
+      );
+    }
+
     const product = Product.create(
       command.name,
       command.description,
