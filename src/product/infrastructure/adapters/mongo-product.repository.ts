@@ -6,9 +6,9 @@ import {
 import { Inject } from '@nestjs/common';
 import { MONGO_DB } from '../../../shared/infrastructure/database/mongodb/mongo.provider';
 import { Product } from '../../../product/domain/entities/product.entity';
-import { ProductId } from 'src/product/domain/value-objects/product-id.vo';
-import { Sku } from 'src/product/domain/value-objects/sku.vo';
-import { Money } from 'src/shared/domain/value-objects/money.vo';
+import { ProductId } from '../../../product/domain/value-objects/product-id.vo';
+import { Sku } from '../../../product/domain/value-objects/sku.vo';
+import { Money } from '../../../shared/domain/value-objects/money.vo';
 
 interface ProductDocument {
   _id: string;

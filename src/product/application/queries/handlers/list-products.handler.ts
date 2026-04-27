@@ -5,7 +5,7 @@ import {
   PRODUCT_REPOSITORY,
   ProductRepository,
 } from '../../ports/product.repository.port';
-import { Product } from 'src/product/domain/entities/product.entity';
+import { Product } from '../../../../product/domain/entities/product.entity';
 
 @QueryHandler(ListProductsQuery)
 export class ListProductsHandler implements IQueryHandler<

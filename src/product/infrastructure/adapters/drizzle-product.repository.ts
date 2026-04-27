@@ -9,7 +9,7 @@ import { Product } from '../../../product/domain/entities/product.entity';
 import { products } from '../../../shared/infrastructure/database/postgres/schema';
 import { ProductId } from '../../../product/domain/value-objects/product-id.vo';
 import { Sku } from '../../../product/domain/value-objects/sku.vo';
-import { Money } from 'src/shared/domain/value-objects/money.vo';
+import { Money } from '../../../shared/domain/value-objects/money.vo';
 import { and, eq, gte, lte, SQL } from 'drizzle-orm';
 
 @Injectable()
