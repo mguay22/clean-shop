@@ -4,6 +4,8 @@ import { DrizzleCustomerRepository } from './infrastructure/adapters/drizzle-cus
 import { CommandHandlers } from './application/use-cases';
 import { CustomerController } from './presentation/customer.controller';
 import { QueryHandlers } from './application/queries/handlers';
+import { NOTIFICATION_SERVICE } from './application/ports/notification.port';
+import { ConsoleNotificationAdapter } from './infrastructure/adapters/console-notification.adapter';
 
 @Module({
   controllers: [CustomerController],
@@ -13,6 +15,10 @@ import { QueryHandlers } from './application/queries/handlers';
     {
       provide: CUSTOMER_REPOSITORY,
       useClass: DrizzleCustomerRepository,
+    },
+    {
+      provide: NOTIFICATION_SERVICE,
+      useClass: ConsoleNotificationAdapter,
     },
   ],
 })
