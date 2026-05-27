@@ -15,6 +15,15 @@ export class Money {
     return new Money(normalized, currency.toUpperCase());
   }
 
+  static zero(currency: string = 'USD'): Money {
+    return new Money(0, currency.toUpperCase());
+  }
+
+  add(other: Money): Money {
+    this.assertSameCurrency(other);
+    return Money.create(this.amount + other.amount, this.currency);
+  }
+
   multiply(factor: number): Money {
     if (factor < 0) {
       throw new DomainException('Multiplication factor cannot be negative');
