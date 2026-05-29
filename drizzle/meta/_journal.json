@@ -15,6 +15,13 @@
       "when": 1776728176474,
       "tag": "0001_keen_venom",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1780014994033,
+      "tag": "0002_remarkable_gravity",
+      "breakpoints": true
     }
   ]
 }
