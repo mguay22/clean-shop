@@ -5,11 +5,13 @@ import { DrizzleModule } from './shared/infrastructure/database/postgres/drizzle
 import { CqrsModule } from '@nestjs/cqrs';
 import { ProductModule } from './product/product.module';
 import { CustomerModule } from './customers/customer.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
     CqrsModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
+    OrderModule,
     ProductModule,
     CustomerModule,
     MongoModule,
