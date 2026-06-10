@@ -73,6 +73,10 @@ export class Order extends AggregateRoot {
     return new Order(props);
   }
 
+  getItemCount(): number {
+    return this._items.reduce((sum, item) => sum + item.quantity, 0);
+  }
+
   getTotal(): Money {
     return this.getSubtotal();
   }
