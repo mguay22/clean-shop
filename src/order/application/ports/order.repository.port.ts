@@ -1,5 +1,5 @@
-import { Order } from '../entities/order.entity';
-import { OrderId } from '../value-objects/order-id.vo';
+import { Order } from '../../domain/entities/order.entity';
+import { OrderId } from '../../domain/value-objects/order-id.vo';
 
 export const ORDER_REPOSITORY = Symbol('ORDER_REPOSITORY');
 

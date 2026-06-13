@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { OrderRepositoryPort } from '../../domain/ports/order.repository.port';
+import { OrderRepositoryPort } from '../../application/ports/order.repository.port';
 import {
   DRIZZLE,
   DrizzleDB,

@@ -10,6 +10,7 @@ import { MongoProductRepository } from './infrastructure/adapters/mongo-product.
 
 @Module({
   imports: [CqrsModule],
+  exports: [PRODUCT_REPOSITORY],
   controllers: [ProductsController],
   providers: [
     ...CommandHandlers,
