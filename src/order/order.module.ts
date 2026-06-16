@@ -10,6 +10,7 @@ import { ProductAdapter } from './infrastructure/adapters/product.adapter';
 import { CustomerModule } from '../customers/customer.module';
 import { ProductModule } from '../product/product.module';
 import { EventHandlers } from './application/events';
+import { QueryHandlers } from './application/queries/handlers';
 
 @Module({
   imports: [CustomerModule, ProductModule],
@@ -17,6 +18,7 @@ import { EventHandlers } from './application/events';
   providers: [
     ...CommandHandlers,
     ...EventHandlers,
+    ...QueryHandlers,
     {
       provide: ORDER_REPOSITORY,
       useClass: DrizzleOrderRepository,
