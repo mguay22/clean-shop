@@ -1,6 +1,7 @@
 import { AggregateRoot } from '../../../shared/domain/aggregate-root';
 import { DomainException } from '../../../shared/domain/exceptions/domain.exception';
 import { Money } from '../../../shared/domain/value-objects/money.vo';
+import { OrderConfirmedEvent } from '../events/order-confirmed.event';
 import { OrderPlacedEvent } from '../events/order-placed.event';
 import { OrderId } from '../value-objects/order-id.vo';
 import { OrderStatus } from '../value-objects/order-status.vo';
@@ -128,5 +129,20 @@ export class Order extends AggregateRoot {
 
   get updatedAt(): Date {
     return this._updatedAt;
+  }
+
+  confirm(): void {
+    this._status = this._status.confirm();
+    this._updatedAt = new Date();
+
+    this.apply(
+      new OrderConfirmedEvent(this._id.getValue(), this._customerId, {
+        street: this._shippingAddress.street,
+        city: this._shippingAddress.city,
+        state: this._shippingAddress.state,
+        zipCode: this._shippingAddress.zipCode,
+        country: this._shippingAddress.country,
+      }),
+    );
   }
 }
