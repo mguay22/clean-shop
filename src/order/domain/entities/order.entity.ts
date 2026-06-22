@@ -3,6 +3,7 @@ import { DomainException } from '../../../shared/domain/exceptions/domain.except
 import { Money } from '../../../shared/domain/value-objects/money.vo';
 import { OrderConfirmedEvent } from '../events/order-confirmed.event';
 import { OrderPlacedEvent } from '../events/order-placed.event';
+import { OrderShippedEvent } from '../events/order-shipped.event';
 import { OrderId } from '../value-objects/order-id.vo';
 import { OrderStatus } from '../value-objects/order-status.vo';
 import { ShippingAddress } from '../value-objects/shipping-address.vo';
@@ -143,6 +144,24 @@ export class Order extends AggregateRoot {
         zipCode: this._shippingAddress.zipCode,
         country: this._shippingAddress.country,
       }),
+    );
+  }
+
+  ship(trackingNumber: string): void {
+    if (!trackingNumber || trackingNumber.trim().length === 0) {
+      throw new DomainException(`Tracking number is required for shipping`);
+    }
+
+    this._status = this._status.ship();
+    this._trackingNumber = trackingNumber.trim();
+    this._updatedAt = new Date();
+
+    this.apply(
+      new OrderShippedEvent(
+        this._id.getValue(),
+        this._trackingNumber,
+        this._customerId,
+      ),
     );
   }
 }
