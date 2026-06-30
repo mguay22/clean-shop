@@ -33,12 +33,13 @@ export class OrderItem extends Entity {
     productName: string,
     unitPrice: Money,
     quantity: number,
+    discount?: Money,
   ) {
     if (quantity <= 0) {
       throw new DomainException('Order item quantity must be greater than 0');
     }
 
-    return new OrderItem({
+    const item = new OrderItem({
       id: new UniqueId(),
       productId,
       productName,
@@ -46,6 +47,12 @@ export class OrderItem extends Entity {
       quantity,
       discount: null,
     });
+
+    if (discount) {
+      item.applyDiscount(discount);
+    }
+
+    return item;
   }
 
   static reconstitute(props: OrderItemProps): OrderItem {

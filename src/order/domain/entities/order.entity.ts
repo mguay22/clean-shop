@@ -1,6 +1,7 @@
 import { AggregateRoot } from '../../../shared/domain/aggregate-root';
 import { DomainException } from '../../../shared/domain/exceptions/domain.exception';
 import { Money } from '../../../shared/domain/value-objects/money.vo';
+import { OrderCancelledEvent } from '../events/order-cancelled.event';
 import { OrderConfirmedEvent } from '../events/order-confirmed.event';
 import { OrderDeliveredEvent } from '../events/order-delivered.event';
 import { OrderPlacedEvent } from '../events/order-placed.event';
@@ -171,5 +172,16 @@ export class Order extends AggregateRoot {
     this._updatedAt = new Date();
 
     this.apply(new OrderDeliveredEvent(this._id.getValue(), this._customerId));
+  }
+
+  cancel(reason: string) {
+    if (!reason || reason.trim().length === 0) {
+      throw new DomainException('A cancellation reason is required');
+    }
+
+    this._status = this._status.cancel();
+    this._updatedAt = new Date();
+
+    this.apply(new OrderCancelledEvent(this._id.getValue(), this._customerId));
   }
 }

@@ -19,6 +19,7 @@ import { ConfirmOrderCommand } from '../application/use-cases/confirm-order/conf
 import { ShipOrderDto } from './dtos/ship-order.dto';
 import { ShipOrderCommand } from '../application/use-cases/ship-order/ship-order.command';
 import { DeliverOrderCommand } from '../application/use-cases/deliver-order/deliver-order.command';
+import { CancelOrderCommand } from '../application/use-cases/cancel-order/cancel-order.command';
 
 @Controller('orders')
 export class OrderController {
@@ -38,6 +39,7 @@ export class OrderController {
           unitPrice: item.unitPrice,
           currency: item.currency ?? 'USD',
           quantity: item.quantity,
+          discount: item.discount,
         })),
         dto.shippingStreet,
         dto.shippingCity,
@@ -91,6 +93,16 @@ export class OrderController {
   async deliver(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.commandBus.execute<DeliverOrderCommand, void>(
       new DeliverOrderCommand(id),
+    );
+  }
+
+  @Patch(':id/cancel')
+  async cancel(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body('reason') reason: string,
+  ) {
+    await this.commandBus.execute<CancelOrderCommand, void>(
+      new CancelOrderCommand(id, reason),
     );
   }
 }

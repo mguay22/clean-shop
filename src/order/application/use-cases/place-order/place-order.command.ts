@@ -4,6 +4,7 @@ export interface PlaceOrderItemDto {
   unitPrice: number;
   currency: string;
   quantity: number;
+  discount?: number;
 }
 
 export class PlaceOrderCommand {
