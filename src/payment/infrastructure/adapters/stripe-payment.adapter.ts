@@ -34,7 +34,8 @@ export class StripePaymentAdapter implements PaymentGatewayPort {
           product_data: { name: line.name },
         },
       })),
-      success_url: urls?.successUrl,
+      success_url:
+        urls?.successUrl || this.configService.getOrThrow('STRIPE_SUCCESS_URL'),
       cancel_url: urls?.cancelUrl,
       metadata: {
         orderId: metadata.orderId,
