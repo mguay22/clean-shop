@@ -3,6 +3,7 @@ import { Money } from '../../../shared/domain/value-objects/money.vo';
 import { PaymentId } from '../value-objects/payment-id.vo';
 import { PaymentStatus } from '../value-objects/payment-status.vo';
 import { DomainException } from '../../../shared/domain/exceptions/domain.exception';
+import { PaymentCompletedEvent } from '../events/payment-completed.event';
 
 export interface PaymentProps {
   id: PaymentId;
@@ -50,6 +51,20 @@ export class Payment extends AggregateRoot {
       createdAt: now,
       updatedAt: now,
     });
+  }
+
+  complete(gatewayTransactionId: string) {
+    this._gatewayTransactionId = gatewayTransactionId;
+    this._status = this._status.transitionToSucceeded();
+    this._updatedAt = new Date();
+
+    this.apply(
+      new PaymentCompletedEvent(
+        this._id.getValue(),
+        this._orderId,
+        gatewayTransactionId,
+      ),
+    );
   }
 
   static reconstitute(props: PaymentProps): Payment {
